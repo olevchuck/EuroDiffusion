@@ -33,9 +33,9 @@ int main()
 				manager->AddCountry(country);
 
 			}
-			if (manager->ValidateInputCoordinates())
+			if (manager->AreInputCoordinatesValid())
 			{
-				if (manager->CheckCountriesAccessibility())
+				if (manager->AreCountriesAccessible())
 				{
 					manager->PrepareToStart();
 					manager->StartDiffusion();

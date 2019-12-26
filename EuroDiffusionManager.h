@@ -10,26 +10,27 @@ public:
 
 public:
 	void ConstructCitiesLinks();
-	bool CheckCountriesAccessibility();
+	bool AreCountriesAccessible();
 	void AddCountry(Country* country);
-	bool ValidateInputCoordinates();
+	bool AreInputCoordinatesValid();
 	void ShowResults();
 	void PrepareToStart();
 	void StartDiffusion();
 
 private:
-	bool CheckLeftNeighbour(int posX, int posY);
-	bool CheckRightNeighbour(int posX, int posY);
-	bool CheckTopNeighbour(int posX, int posY);
-	bool CheckBottomNeighbour(int posX, int posY);
+	bool IsLeftNeighbourPresent(int posX, int posY);
+	bool IsRightNeighbourPresent(int posX, int posY);
+	bool IsTopNeighbourPresent(int posX, int posY);
+	bool IsBottomNeighbourPresent(int posX, int posY);
 	void FindCountryNeighbours(int countryNumber, std::vector<int>& accessibleCountries, std::vector<int>& currentCountryNeighbours);
 	void SetInitialBalances();
 	void PrepareNewDay();
 	void FinishDay();
-	bool CheckCitiesFinish(int finishDay);
+	bool AreCitiesFinished(int finishDay);
 	void DoTransaction(City* from, City* to, Country* country);
 	void ProcessDay();
 	void AddCountryToTheNeighboursList(int country, std::vector<int>& accessibleCountries, std::vector<int>& currentCountryNeighbours);
+	int GetHashForCountry(int x, int y) { return x * 10 + y; }
 
 private:
 	std::map<int, Country*> m_CountriesHash;

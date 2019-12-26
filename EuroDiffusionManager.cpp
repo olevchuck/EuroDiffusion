@@ -14,21 +14,21 @@ void EuroDiffusionManager::ConstructCitiesLinks()
 		int y = cityIterator.second->GetPosY();
 
 		std::vector<City*>* neighbours = new std::vector<City *>();
-		if (CheckLeftNeighbour(x, y))
-			neighbours->push_back(m_CitiesHash[(x - 1) * 10 + y]);
-		if (CheckRightNeighbour(x, y))
-			neighbours->push_back(m_CitiesHash[(x + 1) * 10 + y]);
-		if (CheckBottomNeighbour(x, y))
-			neighbours->push_back(m_CitiesHash[x * 10 + y - 1]);
-		if (CheckTopNeighbour(x, y))
-			neighbours->push_back(m_CitiesHash[x * 10 + y + 1]);
+		if (IsLeftNeighbourPresent(x, y))
+			neighbours->push_back(m_CitiesHash[GetHashForCountry(x-1, y)]);
+		if (IsRightNeighbourPresent(x, y))
+			neighbours->push_back(m_CitiesHash[GetHashForCountry(x + 1, y)]);
+		if (IsBottomNeighbourPresent(x, y))
+			neighbours->push_back(m_CitiesHash[GetHashForCountry(x, y - 1)]);
+		if (IsTopNeighbourPresent(x, y))
+			neighbours->push_back(m_CitiesHash[GetHashForCountry(x, y + 1)]);
 
 		m_CitiesLinks[cityIterator.second] = neighbours;
 
 	}
 }
 
-bool EuroDiffusionManager::CheckCountriesAccessibility()
+bool EuroDiffusionManager::AreCountriesAccessible()
 {
 	std::vector<int> accessibleCountries;
 	std::vector<int> currentCountryNeighbours;
@@ -54,13 +54,13 @@ void EuroDiffusionManager::AddCountry(Country* country)
 	for (int y = country->m_LeftY; y <= country->m_RightY; y++) {
 		for (int x = country->m_LeftX; x <= country->m_RightX; x++) {
 			City* city = new City(x, y, country);
-			m_CitiesHash[city->GetPosX() * 10 + city->GetPosY()] = city;
+			m_CitiesHash[GetHashForCountry(city->GetPosX(), city->GetPosY())] = city;
 			matrix[x][y] = hash;
 		}
 	}
 }
 
-bool EuroDiffusionManager::ValidateInputCoordinates()
+bool EuroDiffusionManager::AreInputCoordinatesValid()
 {
 	for (const auto& countryIterator : m_CountriesHash)
 	{
@@ -120,25 +120,25 @@ void EuroDiffusionManager::StartDiffusion()
 		PrepareNewDay();
 		ProcessDay();
 		FinishDay();
-	} while (!CheckCitiesFinish(day));
+	} while (!AreCitiesFinished(day));
 }
 
-bool EuroDiffusionManager::CheckLeftNeighbour(int posX, int posY)
+bool EuroDiffusionManager::IsLeftNeighbourPresent(int posX, int posY)
 {
 	return posX > m_minPos && matrix[posX - 1][posY];
 }
 
-bool EuroDiffusionManager::CheckRightNeighbour(int posX, int posY)
+bool EuroDiffusionManager::IsRightNeighbourPresent(int posX, int posY)
 {
 	return posX < m_maxPos && matrix[posX + 1][posY];
 }
 
-bool EuroDiffusionManager::CheckTopNeighbour(int posX, int posY)
+bool EuroDiffusionManager::IsTopNeighbourPresent(int posX, int posY)
 {
 	return posY < m_maxPos && matrix[posX][posY + 1];
 }
 
-bool EuroDiffusionManager::CheckBottomNeighbour(int posX, int posY)
+bool EuroDiffusionManager::IsBottomNeighbourPresent(int posX, int posY)
 {
 	return posY > m_minPos && matrix[posX][posY - 1];
 }
@@ -186,7 +186,7 @@ void EuroDiffusionManager::PrepareNewDay()
 {
 	for (auto& cityIterator : m_CitiesHash)
 	{
-		cityIterator.second->SetCoinsToPay();
+		cityIterator.second->RefreshCoinsFromDifferentCountriesToSend();
 	}
 }
 
@@ -199,7 +199,7 @@ void EuroDiffusionManager::FinishDay()
 	}
 }
 
-bool EuroDiffusionManager::CheckCitiesFinish(int finishDay)
+bool EuroDiffusionManager::AreCitiesFinished(int finishDay)
 {
 	for (auto& countryIterator: m_CountriesHash) {
 		Country* country = countryIterator.second;

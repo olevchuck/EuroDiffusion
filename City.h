@@ -15,7 +15,7 @@ public:
 public:
 	void AcceptCoins(Country* fromWho, int amount);
 	int WithdrawCoins(Country* fromWho);
-	void SetCoinsToPay();
+	void RefreshCoinsFromDifferentCountriesToSend();
 	void RefreshCurrentBalances();
 	void ClearIncomingBalances();
 	bool IsFinished();

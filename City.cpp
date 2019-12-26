@@ -19,7 +19,7 @@ int City::WithdrawCoins(Country* fromWho)
 	return m_CoinsFromDifferentCountriesToSend[fromWho];
 }
 
-void City::SetCoinsToPay()
+void City::RefreshCoinsFromDifferentCountriesToSend()
 {
 	for (const auto& country : m_CurrentCoinsAmountFromDifferentCountries)
 	{
