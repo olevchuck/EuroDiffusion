@@ -16,6 +16,7 @@ public:
 	void ShowResults();
 	void PrepareToStart();
 	void StartDiffusion();
+	void FreeMemory();
 
 private:
 	bool IsLeftNeighbourPresent(int posX, int posY);

@@ -52,6 +52,7 @@ int main()
 			}
 			std::cout << "\n";
 		}
+		manager->FreeMemory();
 	}
 
 

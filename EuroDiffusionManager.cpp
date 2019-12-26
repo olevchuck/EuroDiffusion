@@ -123,6 +123,19 @@ void EuroDiffusionManager::StartDiffusion()
 	} while (!AreCitiesFinished(day));
 }
 
+void EuroDiffusionManager::FreeMemory()
+{
+	for (auto& countryIt : m_CountriesHash)
+	{
+		delete countryIt.second;
+	}
+
+	for (auto& cityIt : m_CitiesHash)
+	{
+		delete cityIt.second;
+	}
+}
+
 bool EuroDiffusionManager::IsLeftNeighbourPresent(int posX, int posY)
 {
 	return posX > m_minPos && matrix[posX - 1][posY];
