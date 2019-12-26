@@ -39,7 +39,5 @@ private:
 	std::map<int, City*> m_CitiesHash;
 	std::map<City*, std::vector<City*>*> m_CitiesLinks;
 	int matrix [10][10];
-	const int m_minPos = 0;
-	const int m_maxPos = 9;
 
 };

@@ -6,6 +6,9 @@
 #include <algorithm>
 #include <functional>
 
+#define m_minPos 0
+#define m_maxPos 9
+
 void EuroDiffusionManager::ConstructCitiesLinks()
 {
 	for (const auto cityIterator : m_CitiesHash)
