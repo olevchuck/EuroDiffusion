@@ -65,10 +65,10 @@ bool EuroDiffusionManager::AreInputCoordinatesValid()
 	for (const auto& countryIterator : m_CountriesHash)
 	{
 		const Country* country = countryIterator.second;
-		if ((country->m_RightY < m_minPos || country->m_RightY > m_maxPos) ||
-			(country->m_RightX < m_minPos || country->m_RightX > m_maxPos) ||
-			(country->m_LeftY < m_minPos || country->m_LeftY > m_maxPos) ||
-			(country->m_LeftX < m_minPos || country->m_LeftX > m_maxPos) ||
+		if (!IsValueBetween(country->m_RightY , m_minPos, m_maxPos) ||
+			!IsValueBetween(country->m_RightX, m_minPos, m_maxPos) ||
+			!IsValueBetween(country->m_LeftX, m_minPos, m_maxPos) ||
+			!IsValueBetween(country->m_LeftY, m_minPos, m_maxPos) ||
 			(country->m_LeftX > country->m_RightX) ||
 			(country->m_LeftY > country->m_RightY))
 
@@ -248,5 +248,10 @@ void EuroDiffusionManager::AddCountryToTheNeighboursList(int country, std::vecto
 	{
 		currentCountryNeighbours.push_back(country);
 	}
+}
+
+bool EuroDiffusionManager::IsValueBetween(int value, int left, int right)
+{
+	return value <= right && value >= left;
 }
 

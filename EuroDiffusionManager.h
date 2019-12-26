@@ -31,6 +31,7 @@ private:
 	void ProcessDay();
 	void AddCountryToTheNeighboursList(int country, std::vector<int>& accessibleCountries, std::vector<int>& currentCountryNeighbours);
 	int GetHashForCountry(int x, int y) { return x * 10 + y; }
+	bool IsValueBetween(int value, int left, int right);
 
 private:
 	std::map<int, Country*> m_CountriesHash;
