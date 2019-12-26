@@ -14,7 +14,7 @@ public:
 
 public:
 	void AcceptCoins(Country* fromWho, int amount);
-	int WithdrawalCoins(Country* fromWho);
+	int WithdrawCoins(Country* fromWho);
 	void SetCoinsToPay();
 	void RefreshCurrentBalances();
 	void ClearIncomingBalances();
@@ -25,6 +25,7 @@ private:
 	int m_posX;
 	int m_posY;
 	int m_CoinsAmount = 1000000;
+	const int m_NeededCoinsAmountToSend = 1000;
 	Country* m_ParentCountry;
 	std::map<Country*, int> m_CurrentCoinsAmountFromDifferentCountries;
 	std::map<Country*, int> m_IncomingCoinsAmountFromDifferentCountries;

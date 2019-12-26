@@ -3,11 +3,17 @@
 
 void City::AcceptCoins(Country* fromWho, int amount)
 {
+	if (!fromWho)
+		return;
+
 	m_IncomingCoinsAmountFromDifferentCountries[fromWho] += amount;
 }
 
-int City::WithdrawalCoins(Country* fromWho)
+int City::WithdrawCoins(Country* fromWho)
 {
+	if (!fromWho)
+		return 0;
+
 	m_CurrentCoinsAmountFromDifferentCountries[fromWho] -= m_CoinsFromDifferentCountriesToSend[fromWho];
 
 	return m_CoinsFromDifferentCountriesToSend[fromWho];
@@ -17,7 +23,7 @@ void City::SetCoinsToPay()
 {
 	for (const auto& country : m_CurrentCoinsAmountFromDifferentCountries)
 	{
-		m_CoinsFromDifferentCountriesToSend[country.first] = country.second / 1000;
+		m_CoinsFromDifferentCountriesToSend[country.first] = country.second / m_NeededCoinsAmountToSend;
 	}
 }
 
@@ -54,6 +60,9 @@ void City::SetInitialBalances(std::map<int, Country*>& countryHash)
 {
 	for (const auto& countryIterator : countryHash) {
 		Country* country = countryIterator.second;
+		if (!country)
+			continue;
+
 		if (m_ParentCountry == country) 
 		{
 			m_CurrentCoinsAmountFromDifferentCountries[country] = m_CoinsAmount;

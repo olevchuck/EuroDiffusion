@@ -29,6 +29,7 @@ private:
 	bool CheckCitiesFinish(int finishDay);
 	void DoTransaction(City* from, City* to, Country* country);
 	void ProcessDay();
+	void AddCountryToTheNeighboursList(int country, std::vector<int>& accessibleCountries, std::vector<int>& currentCountryNeighbours);
 
 private:
 	std::map<int, Country*> m_CountriesHash;
